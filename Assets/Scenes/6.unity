@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &4940558441746981737
+--- !u!1001 &2126676996
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -132,7 +132,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1008354922061927874, guid: 589be17acacfa43788858c108e1af3af, type: 3}
       propertyPath: m_Name
-      value: Canvas
+      value: Table
       objectReference: {fileID: 0}
     - target: {fileID: 1008354922061927902, guid: 589be17acacfa43788858c108e1af3af, type: 3}
       propertyPath: m_Pivot.x
@@ -217,6 +217,10 @@ PrefabInstance:
     - target: {fileID: 1008354922061927902, guid: 589be17acacfa43788858c108e1af3af, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1008354922650264486, guid: 589be17acacfa43788858c108e1af3af, type: 3}
+      propertyPath: m_text
+      value: Cons
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 589be17acacfa43788858c108e1af3af, type: 3}
