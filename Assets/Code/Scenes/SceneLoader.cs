@@ -9,6 +9,8 @@ namespace Presentation.Scenes
     {
         public static SceneLoader sceneLoader { get; private set; }
         [SerializeField] private int currentLevel = 0;
+        // Persistent scene is buildindex 0 and must be taken in account when dealing with both currentLevel and maxAmountLevels
+        [SerializeField] private int maxAmountLevels;
         private void Awake()
         {
             if (!sceneLoader)
@@ -19,40 +21,54 @@ namespace Presentation.Scenes
             {
                 Destroy(this);
             }
+
+            maxAmountLevels = SceneManager.sceneCountInBuildSettings;
         }
 
         [SerializeField] private List<AsyncOperation> asyncOperations = new List<AsyncOperation>();
 
         public void LoadSceneByIndex(int index)
         {
-            asyncOperations.Add(SceneManager.UnloadSceneAsync(currentLevel));
-            asyncOperations.Add(SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive));
+            if (currentLevel < maxAmountLevels - 1)
+            {
+                asyncOperations.Add(SceneManager.UnloadSceneAsync(currentLevel));
+                asyncOperations.Add(SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive));
 
-            currentLevel = index;
-            HandleAsyncScenes();
+                currentLevel = index;
+                HandleAsyncScenes();
+            }
         }
 
         public void AddSceneByIndex(int index)
         {
-            asyncOperations.Add(SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive));
+            if (currentLevel < maxAmountLevels - 1)
+            {
+                asyncOperations.Add(SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive));
 
-            currentLevel = index;
-            HandleAsyncScenes();
+                currentLevel = index;
+                HandleAsyncScenes();
+            }
         }
 
         public void LoadNextScene()
         {
-            asyncOperations.Add(SceneManager.UnloadSceneAsync(currentLevel));
-            asyncOperations.Add(SceneManager.LoadSceneAsync(++currentLevel, LoadSceneMode.Additive));
+            if (currentLevel < maxAmountLevels - 1)
+            {
+                asyncOperations.Add(SceneManager.UnloadSceneAsync(currentLevel));
+                asyncOperations.Add(SceneManager.LoadSceneAsync(++currentLevel, LoadSceneMode.Additive));
 
-            HandleAsyncScenes();
+                HandleAsyncScenes();
+            }
         }
         public void LoadPreviousScene()
         {
-            asyncOperations.Add(SceneManager.UnloadSceneAsync(currentLevel));
-            asyncOperations.Add(SceneManager.LoadSceneAsync(--currentLevel, LoadSceneMode.Additive));
+            if (currentLevel > 1)
+            {
+                asyncOperations.Add(SceneManager.UnloadSceneAsync(currentLevel));
+                asyncOperations.Add(SceneManager.LoadSceneAsync(--currentLevel, LoadSceneMode.Additive));
 
-            HandleAsyncScenes();
+                HandleAsyncScenes();
+            }
         }
 
         async void HandleAsyncScenes()
